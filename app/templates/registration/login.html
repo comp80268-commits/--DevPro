@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход - DevPro{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5" data-aos="fade-up">
+            <div class="card-glass p-4">
+                <div class="text-center mb-4">
+                    <div class="avatar-gradient" style="width: 70px; height: 70px; margin: 0 auto; font-size: 30px;">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                    </div>
+                    <h3 style="font-weight: 700; margin-top: 15px;">Добро пожаловать</h3>
+                    <p style="color: rgba(255,255,255,0.5);">Войдите в свой аккаунт</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444;">
+                            <i class="bi bi-exclamation-triangle"></i> Неверное имя пользователя или пароль
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label class="form-label" style="color: rgba(255,255,255,0.7);">Имя пользователя</label>
+                        <input type="text" name="username" class="form-control form-control-custom" placeholder="Введите логин" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" style="color: rgba(255,255,255,0.7);">Пароль</label>
+                        <input type="password" name="password" class="form-control form-control-custom" placeholder="Введите пароль" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-gradient w-100">
+                        <i class="bi bi-box-arrow-in-right"></i> Войти
+                    </button>
+                </form>
+
+                <hr style="border-color: rgba(255,255,255,0.05);">
+
+                <div class="text-center">
+                    <p style="color: rgba(255,255,255,0.5);">
+                        Нет аккаунта? <a href="{% url 'register' %}" style="color: #7c3aed; text-decoration: none;">Зарегистрироваться</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const titleField = document.getElementById('id_title');
+    const slugField = document.getElementById('id_slug');
+
+    function slugify(text) {
+        const map = {
+            'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh',
+            'з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o',
+            'п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts',
+            'ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya'
+        };
+        return text.toLowerCase()
+            .split('')
+            .map(ch => map[ch] !== undefined ? map[ch] : ch)
+            .join('')
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-');
+    }
+
+    if (titleField && slugField) {
+        titleField.addEventListener('input', function () {
+            slugField.value = slugify(titleField.value);
+        });
+    }
+});
+</script>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card-glass p-4">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="avatar-gradient" style="width: 50px; height: 50px; font-size: 20px; background: linear-gradient(135deg, #10b981, #3b82f6);">
+                        <i class="bi bi-pencil"></i>
+                    </div>
+                    <div>
+                        <h3 style="font-weight: 700; margin: 0; color: white;">{{ title }}</h3>
+                        <p style="color: rgba(255,255,255,0.4); margin: 0; font-size: 14px;">Заполните все поля ниже</p>
+                    </div>
+                </div>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label" style="color: rgba(255,255,255,0.8); font-weight: 500;">
+                                {{ field.label }}
+                            </label>
+
+                            {% if field.field.widget.input_type == 'checkbox' %}
+                                <div class="form-check">
+                                    {{ field }}
+                                    <label class="form-check-label" for="{{ field.id_for_label }}" style="color: rgba(255,255,255,0.7);">
+                                        Опубликовать
+                                    </label>
+                                </div>
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+
+                            {% if field.errors %}
+                                <div class="mt-1" style="color: #ef4444; font-size: 14px;">
+                                    {% for error in field.errors %}
+                                        <i class="bi bi-exclamation-circle"></i> {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if field.help_text %}
+                                <small style="color: rgba(255,255,255,0.3); font-size: 12px; display: block; margin-top: 5px;">
+                                    {{ field.help_text }}
+                                </small>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-flex gap-3 mt-4">
+                        <button type="submit" class="btn btn-gradient">
+                            <i class="bi bi-check-lg"></i> Сохранить
+                        </button>
+                        <a href="{% url 'article_list' %}" class="btn btn-outline-gradient">
+                            <i class="bi bi-x-lg"></i> Отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Стили для полей формы */
+    .card-glass input[type="text"],
+    .card-glass input[type="file"],
+    .card-glass textarea {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
+        color: #ffffff !important;
+        padding: 12px 16px !important;
+        width: 100% !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .card-glass input[type="text"]:focus,
+    .card-glass textarea:focus {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-color: #7c3aed !important;
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2) !important;
+        color: #ffffff !important;
+        outline: none !important;
+    }
+
+    .card-glass input[type="text"]::placeholder,
+    .card-glass textarea::placeholder {
+        color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .card-glass input[type="file"] {
+        padding: 10px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    .card-glass input[type="file"]::-webkit-file-upload-button {
+        background: rgba(124, 58, 237, 0.3) !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 8px 16px !important;
+        color: white !important;
+        cursor: pointer !important;
+        margin-right: 10px !important;
+    }
+
+    .card-glass input[type="file"]::-webkit-file-upload-button:hover {
+        background: rgba(124, 58, 237, 0.5) !important;
+    }
+
+    .card-glass input[type="checkbox"] {
+        width: 18px !important;
+        height: 18px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        accent-color: #7c3aed !important;
+    }
+
+    .card-glass input[type="checkbox"]:checked {
+        background: #7c3aed !important;
+    }
+
+    /* Стили для выпадающих списков и select */
+    .card-glass select {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
+        color: #ffffff !important;
+        padding: 12px 16px !important;
+        width: 100% !important;
+    }
+
+    .card-glass select option {
+        background: #1a1a1a !important;
+        color: white !important;
+    }
+</style>
+{% endblock %}

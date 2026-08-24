@@ -1,0 +1,157 @@
+/* ===== БЭЙДЖИ ===== */
+.badge-glow {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.1);
+    border-radius: 20px;
+    font-size: 11px;
+    color: var(--primary);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.badge-success {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.badge-danger {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+/* ===== ФОРМЫ ===== */
+.form-control-space {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    border-radius: 10px !important;
+    color: #ffffff !important;
+    padding: 12px 16px !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+}
+
+.form-control-space:focus {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-color: rgba(124, 58, 237, 0.2) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.05) !important;
+    color: #ffffff !important;
+    outline: none !important;
+}
+
+.form-control-space::placeholder {
+    color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.form-label-space {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* ===== АНИМАЦИИ ===== */
+.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+
+/* ===== ГЛАВНАЯ ===== */
+.hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 60px;
+    line-height: 1.1;
+    letter-spacing: -2px;
+}
+
+.hero-subtitle {
+    color: var(--text-muted);
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* ===== СТАТЬИ (БЛОГ) ===== */
+.article-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.article-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.article-content {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.9;
+    font-size: 17px;
+}
+
+.article-content p {
+    margin-bottom: 20px;
+}
+
+/* ===== ПАГИНАЦИЯ ===== */
+.pagination-space .page-link {
+    background: transparent;
+    border: 1px solid var(--border-light);
+    color: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    margin: 0 4px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+}
+
+.pagination-space .page-link:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pagination-space .page-item.active .page-link {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none;
+    color: #ffffff;
+}
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 32px;
+    }
+    .hero-subtitle {
+        font-size: 16px;
+    }
+    .card-space .card-img-top {
+        height: 150px;
+    }
+    .article-content {
+        font-size: 15px;
+    }
+}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Статьи - DevPro{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4" data-aos="fade-up">
+        <h1 style="font-weight: 800;">
+            <i class="bi bi-newspaper" style="color: #7c3aed;"></i> Статьи
+        </h1>
+        {% if user.is_authenticated %}
+            <a href="{% url 'article_create' %}" class="btn btn-gradient">
+                <i class="bi bi-plus-circle"></i> Создать
+            </a>
+        {% endif %}
+    </div>
+
+    {% if articles %}
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:100 }}">
+                    <div class="card-glass h-100">
+                        {% if article.image %}
+                            <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}"
+                                 style="height: 200px; object-fit: cover; border-radius: 20px 20px 0 0;">
+                        {% else %}
+                            <div style="height: 200px; background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(236,72,153,0.2));
+                                        display: flex; align-items: center; justify-content: center; border-radius: 20px 20px 0 0;">
+                                <i class="bi bi-image" style="font-size: 48px; color: rgba(255,255,255,0.2);"></i>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'article_detail' article.slug %}"
+                                   style="color: white; text-decoration: none; transition: color 0.3s;">
+                                    {{ article.title }}
+                                </a>
+                            </h5>
+                            <p class="card-text">{{ article.content|truncatechars:100 }}</p>
+                            <p class="fw-bold" style="color: #7c3aed;">{{ article.price }} ₽</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <small style="color: rgba(255,255,255,0.4);">
+                                    <i class="bi bi-calendar3"></i> {{ article.created_at|date:"d.m.Y" }}
+                                </small>
+                                <a href="{% url 'article_detail' article.slug %}" class="btn btn-outline-gradient btn-sm">
+                                    Читать <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                            <form action="{% url 'cart:cart_add' article.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="quantity" value="1">
+                                <input type="hidden" name="override" value="False">
+                                <button type="submit" class="btn btn-gradient btn-sm w-100">
+                                    <i class="bi bi-cart-plus"></i> Купить
+                                </button>
+                            </form>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'article_detail' article.slug %}"
+                                   style="color: white; text-decoration: none; transition: color 0.3s;">
+                                    {{ article.title }}
+                                </a>
+                            </h5>
+                            <p class="card-text">{{ article.content|truncatechars:100 }}</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
+                            <small style="color: rgba(255,255,255,0.4);">
+                                <i class="bi bi-calendar3"></i> {{ article.created_at|date:"d.m.Y" }}
+                            </small>
+                            <a href="{% url 'article_detail' article.slug %}" class="btn btn-outline-gradient btn-sm">
+                                Читать <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-5" data-aos="fade-up">
+            <div style="font-size: 64px; color: rgba(255,255,255,0.1);">
+                <i class="bi bi-journal-x"></i>
+            </div>
+            <h3 style="color: rgba(255,255,255,0.5);">Статей пока нет</h3>
+            <p style="color: rgba(255,255,255,0.3);">Будьте первым, кто создаст статью!</p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'article_create' %}" class="btn btn-gradient mt-3">
+                    <i class="bi bi-plus-circle"></i> Создать первую статью
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

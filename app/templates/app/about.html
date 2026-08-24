@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}О нас - DevPro Team{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Заголовок -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">О нас</h1>
+        <p class="lead text-muted">{{ mission }}</p>
+        <hr class="w-50 mx-auto">
+    </div>
+
+    <!-- Информация о компании -->
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-6">
+            <h2>Кто мы?</h2>
+            <p class="fs-5">
+                <strong>{{ company_name }}</strong> — это команда профессионалов, объединённых страстью к веб-разработке.
+                Мы создаём современные, быстрые и надёжные веб-приложения.
+            </p>
+            <ul class="list-unstyled">
+                <li><i class="bi bi-check-circle-fill text-success"></i> 5 лет на рынке</li>
+                <li><i class="bi bi-check-circle-fill text-success"></i> 50+ успешных проектов</li>
+                <li><i class="bi bi-check-circle-fill text-success"></i> 100% довольных клиентов</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <div class="bg-light p-4 rounded-3">
+                <h4 class="text-center">Наши технологии</h4>
+                <div class="d-flex flex-wrap gap-2 justify-content-center">
+                    <span class="badge bg-primary fs-6 p-2">Python</span>
+                    <span class="badge bg-success fs-6 p-2">Django</span>
+                    <span class="badge bg-danger fs-6 p-2">PostgreSQL</span>
+                    <span class="badge bg-info fs-6 p-2">Bootstrap 5</span>
+                    <span class="badge bg-warning text-dark fs-6 p-2">JavaScript</span>
+                    <span class="badge bg-secondary fs-6 p-2">Docker</span>
+                    <span class="badge bg-dark fs-6 p-2">Git</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Команда -->
+    <h2 class="text-center mb-4">Наша команда</h2>
+    <p class="text-center text-muted mb-5">Познакомьтесь с людьми, которые создают крутые проекты</p>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for member in team %}
+        <div class="col">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-body text-center">
+                    <!-- Фото -->
+                    <div class="mb-3">
+                        {% if member.photo %}
+                            <img src="{% static member.photo %}"
+                                 alt="{{ member.name }}"
+                                 class="rounded-circle img-fluid"
+                                 style="width: 150px; height: 150px; object-fit: cover;">
+                        {% else %}
+                            <div class="bg-secondary rounded-circle mx-auto d-flex align-items-center justify-content-center"
+                                 style="width: 150px; height: 150px; font-size: 3rem; color: white;">
+                                {{ member.name|slice:":1" }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Информация -->
+                    <h5 class="card-title">{{ member.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-primary">{{ member.role }}</h6>
+                    <p class="card-text text-muted">{{ member.bio }}</p>
+
+                    <!-- Социальные сети -->
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        {% if member.github %}
+                        <a href="{{ member.github }}" target="_blank" class="btn btn-dark btn-sm">
+                            <i class="bi bi-github"></i> GitHub
+                        </a>
+                        {% endif %}
+                        {% if member.telegram %}
+                        <a href="https://t.me/{{ member.telegram }}" target="_blank" class="btn btn-info btn-sm text-white">
+                            <i class="bi bi-telegram"></i> Telegram
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Контакты -->
+    <div class="mt-5 p-4 bg-light rounded-3 text-center">
+        <h3>Хотите с нами работать?</h3>
+        <p class="fs-5">Свяжитесь с нами, и мы обсудим ваш проект!</p>
+        <a href="{% url 'contact' %}" class="btn btn-primary btn-lg">Написать нам</a>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+    }
+    .badge {
+        padding: 8px 16px;
+    }
+</style>
+{% endblock %}

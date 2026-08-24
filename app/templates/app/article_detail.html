@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    {% if user.is_authenticated %}
+    <div class="btn-group" role="group">
+        <a href="{% url 'article_update' article.slug %}" class="btn btn-warning">
+            <i class="bi bi-pencil"></i> Изменить
+        </a>
+        <a href="{% url 'article_delete' article.slug %}" class="btn btn-danger">
+            <i class="bi bi-trash"></i> Удалить
+        </a>
+    </div>
+{% endif %}
+    <article>
+        {% if article.image %}
+            <img src="{{ article.image.url }}" class="img-fluid mb-3" alt="{{ article.title }}">
+        {% endif %}
+
+        <h1>{{ article.title }}</h1>
+        <small class="text-muted">
+            {{ article.created_at|date:"d.m.Y H:i" }}
+            {% if article.is_published %}
+                <span class="badge bg-success">Опубликовано</span>
+            {% else %}
+                <span class="badge bg-secondary">Черновик</span>
+            {% endif %}
+        </small>
+        <hr>
+        <div class="content">
+            {{ article.content|linebreaks }}
+        </div>
+        <hr>
+        <form action="{% url 'cart:cart_add' article.id %}" method="post">
+             {% csrf_token %}
+             {{ cart_product_form }}
+        <button type="submit">Добавить в корзину</button>
+        </form>
+
+        <div class="btn-group" role="group">
+            <a href="{% url 'article_list' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Назад к списку
+            </a>
+            <a href="{% url 'article_update' article.slug %}" class="btn btn-warning">
+                <i class="bi bi-pencil"></i> Изменить
+            </a>
+            <a href="{% url 'article_delete' article.slug %}" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Удалить
+            </a>
+        </div>
+    </article>
+</div>
+{% endblock %}
