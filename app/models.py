@@ -5,6 +5,7 @@ from django.utils.text import slugify
 from shop.models import Category
 
 
+
 class Article(models.Model):
     title = models.CharField(max_length=200, verbose_name='Заголовок')
     slug = models.SlugField(max_length=200, unique=True, blank=True, verbose_name='URL')

@@ -9,7 +9,7 @@ from app import views
 from app.views import ArticleListView, ArticleDetailView
 
 urlpatterns = [
-    path('cart/', include('cart.urls', namespace='cart')),
+   # path('cart/', include('cart.urls', namespace='cart')),
     # ===== АДМИНКА =====
     path('admin/', admin.site.urls),
 

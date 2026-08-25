@@ -9,7 +9,6 @@ from .forms import ArticleForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from cart.forms import CartAddProductForm
 
 def home(request):
     return render(request, 'app/home.html')
@@ -60,7 +59,6 @@ class ArticleListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['cart_product_form'] = CartAddProductForm()
         return context
 
 
