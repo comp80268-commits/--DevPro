@@ -13,7 +13,8 @@
             <i class="bi bi-trash"></i> Удалить
         </a>
     </div>
-{% endif %}
+    {% endif %}
+
     <article>
         {% if article.image %}
             <img src="{{ article.image.url }}" class="img-fluid mb-3" alt="{{ article.title }}">
@@ -33,11 +34,15 @@
             {{ article.content|linebreaks }}
         </div>
         <hr>
+
+        <!-- УДАЛИТЕ ЭТОТ БЛОК (строки с form) -->
+        <!--
         <form action="{% url 'cart:cart_add' article.id %}" method="post">
-             {% csrf_token %}
-             {{ cart_product_form }}
-        <button type="submit">Добавить в корзину</button>
+            {% csrf_token %}
+            {{ cart_product_form }}
+            <button type="submit">Добавить в корзину</button>
         </form>
+        -->
 
         <div class="btn-group" role="group">
             <a href="{% url 'article_list' %}" class="btn btn-secondary">
